@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+import MyComponent from './myComponent'
 
 function App() {
   return (
@@ -13,13 +14,13 @@ function App() {
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           Learn React
         </a>
       </header>
+      <MyComponent />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
