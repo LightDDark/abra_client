@@ -1,22 +1,36 @@
 import React, { useState } from 'react'
-import { TextField, IconButton, Divider } from '@mui/material'
+import { TextField, IconButton, Divider, Select, MenuItem } from '@mui/material'
 import BookList from '../components/bookList'
 import ViewListIcon from '@mui/icons-material/ViewList'
 import ViewModuleIcon from '@mui/icons-material/ViewModule'
+import { useLoaderData } from 'react-router-dom'
 
 export default function Gallery() {
   const [search, setSearch] = useState('')
   const [view, setView] = useState('list')
-  const [books, setBooks] = useState([
-    { title: 'Book 1', category: 'Category 1' },
-    { title: 'Book 2', category: 'Category 2' },
-    // Add more books here
-  ])
+  const [category, setCategory] = useState('All')
+  const data = useLoaderData()
+  console.log(data)
+  const [books, setBooks] = useState(data)
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(search.toLowerCase()),
+  const filteredBooks = books.filter(
+    (book) =>
+      book.Name.toLowerCase().includes(search.toLowerCase()) &&
+      (category === 'All' || book.Category === category),
   )
 
+  const categories = books
+    .map((element) => {
+      return element.Category
+    })
+    .filter((value, index, array) => {
+      return array.indexOf(value) === index
+    })
+    .sort()
+    .map((element) => {
+      return <MenuItem value={element}>{element}</MenuItem>
+    })
+  console.log(categories)
   return (
     <div style={{ textAlign: 'center' }}>
       <TextField
@@ -25,6 +39,13 @@ export default function Gallery() {
         onChange={(e) => setSearch(e.target.value)}
         style={{ margin: '20px 0' }}
       />
+      <Select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        style={{ margin: '20px 0' }}>
+        <MenuItem value="All">All</MenuItem>
+        {categories}
+      </Select>
       <br />
       <Divider style={{ margin: '20px 0' }} />
       <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>

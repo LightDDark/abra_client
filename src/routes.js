@@ -22,9 +22,14 @@ import MyAppBar from './components/myAppBar'
 import Gallery from './pages/gallery'
 import { Navigate } from 'react-router-dom'
 import Home from './pages/home'
+import BookPage from './pages/bookPage'
 
-const MyComponentLoader = async () => {
+const GalleryLoader = async () => {
   return fetch('/api/Books')
+}
+
+const BookPageLoader = async ({ params }) => {
+  return fetch(`/api/Books/${params.Id}`)
 }
 
 const routes = [
@@ -52,6 +57,12 @@ const routes = [
       {
         path: '/gallery',
         element: <Gallery />,
+        loader: GalleryLoader,
+      },
+      {
+        path: '/gallery/:Id',
+        element: <BookPage />,
+        loader: BookPageLoader,
       },
       {
         path: 'only',
